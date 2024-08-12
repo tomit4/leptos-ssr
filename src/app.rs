@@ -5,6 +5,8 @@ use leptos_router::*;
 
 use serde::{Serialize, Deserialize};
 
+use crate::todo::BusyButton;
+
 #[component]
 pub fn App() -> impl IntoView {
     // logging::log!("where do I run?"); // Answer: twice on server, once on client
@@ -59,6 +61,10 @@ pub fn App() -> impl IntoView {
                         path="/blog/:id" 
                         view=BlogPost
                         ssr=SsrMode::PartiallyBlocked
+                    />
+                    <Route
+                        path="/busy"
+                        view=BusyButton
                     />
                 </Routes>
             </main>

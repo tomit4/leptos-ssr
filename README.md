@@ -3,7 +3,7 @@
 **LEFT OFF:**
 
 - You left off
-  [here](https://book.leptos.dev/ssr/24_hydration_bugs.html#the-potential-for-bugs).
+  [here](https://book.leptos.dev/server/25_server_functions.html#using-server-functions).
 
 <picture>
     <source srcset="https://raw.githubusercontent.com/leptos-rs/leptos/main/docs/logos/Leptos_logo_Solid_White.svg" media="(prefers-color-scheme: dark)">

@@ -1,11 +1,30 @@
+use sqlx::SqlitePool;
+use dotenv::dotenv;
+use std::env;
+
+#[derive(Clone)]
+struct AppState {
+    #[allow(dead_code)]
+    db_pool: SqlitePool,
+}
+
+
 #[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {
-    use axum::Router;
+    use axum::{Router, Extension};
     use leptos::*;
     use leptos_axum::{generate_route_list, LeptosRoutes};
     use leptos_ssr::app::*;
     use leptos_ssr::fileserv::file_and_error_handler;
+
+    dotenv().ok();
+    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    let pool = SqlitePool::connect(&database_url).await.unwrap();
+
+    let app_state = AppState {
+        db_pool: pool,
+    };
 
     // Setting get_configuration(None) means we'll be using cargo-leptos's env values
     // For deployment these variables are:
@@ -21,7 +40,8 @@ async fn main() {
     let app = Router::new()
         .leptos_routes(&leptos_options, routes, App)
         .fallback(file_and_error_handler)
-        .with_state(leptos_options);
+        .with_state(leptos_options)
+        .layer(Extension(app_state));
 
     let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
     logging::log!("listening on http://{}", &addr);
@@ -30,9 +50,11 @@ async fn main() {
         .unwrap();
 }
 
+/*
 #[cfg(not(feature = "ssr"))]
 pub fn main() {
     // no client-side main function
     // unless we want this to work with e.g., Trunk for a purely client-side app
     // see lib.rs for hydration function instead
 }
+*/
