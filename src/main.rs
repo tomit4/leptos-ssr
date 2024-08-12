@@ -2,17 +2,10 @@ use sqlx::SqlitePool;
 use dotenv::dotenv;
 use std::env;
 
-#[derive(Clone)]
-struct AppState {
-    #[allow(dead_code)]
-    db_pool: SqlitePool,
-}
-
-
 #[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {
-    use axum::{Router, Extension};
+    use axum::Router;
     use leptos::*;
     use leptos_axum::{generate_route_list, LeptosRoutes};
     use leptos_ssr::app::*;
@@ -20,11 +13,7 @@ async fn main() {
 
     dotenv().ok();
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-    let pool = SqlitePool::connect(&database_url).await.unwrap();
-
-    let app_state = AppState {
-        db_pool: pool,
-    };
+    SqlitePool::connect(&database_url).await.unwrap();
 
     // Setting get_configuration(None) means we'll be using cargo-leptos's env values
     // For deployment these variables are:
@@ -40,8 +29,7 @@ async fn main() {
     let app = Router::new()
         .leptos_routes(&leptos_options, routes, App)
         .fallback(file_and_error_handler)
-        .with_state(leptos_options)
-        .layer(Extension(app_state));
+        .with_state(leptos_options);
 
     let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
     logging::log!("listening on http://{}", &addr);
