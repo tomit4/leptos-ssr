@@ -3,7 +3,7 @@ use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
 
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 use crate::todo::BusyButton;
 
@@ -103,7 +103,7 @@ struct Comment {
 }
 
 // fn post_id_source() -> u32 {
-    // 1
+// 1
 // }
 
 fn comments_source() -> u32 {
@@ -149,7 +149,6 @@ async fn fetch_comments(_post_id: u32) -> Vec<Comment> {
             author: "Charlie".to_string(),
             content: "Very informative. Looking forward to your next post".to_string(),
         },
-
     ]
 }
 

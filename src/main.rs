@@ -1,5 +1,5 @@
-use sqlx::SqlitePool;
 use dotenv::dotenv;
+use sqlx::SqlitePool;
 use std::env;
 
 #[cfg(feature = "ssr")]

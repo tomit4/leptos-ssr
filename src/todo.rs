@@ -12,7 +12,6 @@ pub mod ssr {
     }
 }
 
-
 #[server(AddTodo, "/api")]
 pub async fn add_todo(title: String) -> Result<(), ServerFnError> {
     use self::ssr::*;
