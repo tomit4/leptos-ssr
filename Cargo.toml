@@ -21,7 +21,7 @@ thiserror = "1"
 tracing = { version = "0.1", optional = true }
 http = "1"
 serde = { version = "1.0.206", features = ["derive"] }
-# NOTE: To use sqlx with leptos-ssr, 
+# NOTE: To use sqlx with leptos-ssr,
 # you must tell it to not run in WASM runtime...otherwise causes openssl lib errors
 sqlx = { version ="0.8.0", features = ["runtime-tokio-native-tls", "sqlite"], optional = true }
 dotenv = "0.15.0"

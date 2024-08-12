@@ -57,8 +57,8 @@ pub fn App() -> impl IntoView {
                     />
                     */
                     <Route path="/blog" view=BlogPost/>
-                    <Route 
-                        path="/blog/:id" 
+                    <Route
+                        path="/blog/:id"
                         view=BlogPost
                         ssr=SsrMode::PartiallyBlocked
                     />

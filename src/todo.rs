@@ -1,4 +1,4 @@
-// NOTE: Possible only thanks to: 
+// NOTE: Possible only thanks to:
 // https://github.com/leptos-rs/leptos/blob/main/examples/todo_app_sqlite_axum/src/todo.rs
 use leptos::*;
 use leptos_server::ServerFnError;
