@@ -5,6 +5,7 @@ use leptos_router::*;
 
 use serde::{Deserialize, Serialize};
 
+use crate::extractors::CookieTestComponent;
 use crate::todo::BusyButton;
 
 #[component]
@@ -65,6 +66,10 @@ pub fn App() -> impl IntoView {
                     <Route
                         path="/busy"
                         view=BusyButton
+                    />
+                    <Route
+                        path="/cookie"
+                        view=CookieTestComponent
                     />
                 </Routes>
             </main>

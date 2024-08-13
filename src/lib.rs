@@ -1,5 +1,7 @@
 pub mod app;
 pub mod error_template;
+
+pub mod extractors;
 #[cfg(feature = "ssr")]
 pub mod fileserv;
 pub mod todo;

@@ -9,11 +9,14 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 axum = { version = "0.7", optional = true }
 console_error_panic_hook = "0.1"
-leptos = { version = "0.6"}
+leptos = { version = "0.6" }
 leptos_axum = { version = "0.6", optional = true }
 leptos_meta = { version = "0.6" }
 leptos_router = { version = "0.6" }
-tokio = { version = "1", features = ["rt-multi-thread", "full"], optional = true }
+tokio = { version = "1", features = [
+  "rt-multi-thread",
+  "full",
+], optional = true }
 tower = { version = "0.4", optional = true }
 tower-http = { version = "0.5", features = ["fs"], optional = true }
 wasm-bindgen = "=0.2.92"
@@ -23,23 +26,28 @@ http = "1"
 serde = { version = "1.0.206", features = ["derive"] }
 # NOTE: To use sqlx with leptos-ssr,
 # you must tell it to not run in WASM runtime...otherwise causes openssl lib errors
-sqlx = { version ="0.8.0", features = ["runtime-tokio-native-tls", "sqlite"], optional = true }
+sqlx = { version = "0.8.0", features = [
+  "runtime-tokio-native-tls",
+  "sqlite",
+], optional = true }
 dotenv = "0.15.0"
+axum-macros = "0.4.1"
+axum-extra = { version = "0.9.3", features = ["cookie"] }
 
 [features]
 hydrate = ["leptos/hydrate", "leptos_meta/hydrate", "leptos_router/hydrate"]
 # NOTE: You must provide dep:sqlx in the ssr dependency array
 ssr = [
-    "dep:axum",
-    "dep:tokio",
-    "dep:tower",
-    "dep:sqlx",
-    "dep:tower-http",
-    "dep:leptos_axum",
-    "leptos/ssr",
-    "leptos_meta/ssr",
-    "leptos_router/ssr",
-    "dep:tracing",
+  "dep:axum",
+  "dep:tokio",
+  "dep:tower",
+  "dep:sqlx",
+  "dep:tower-http",
+  "dep:leptos_axum",
+  "leptos/ssr",
+  "leptos_meta/ssr",
+  "leptos_router/ssr",
+  "dep:tracing",
 ]
 
 # Defines a size-optimized profile for the WASM bundle in release mode
