@@ -47,11 +47,25 @@ pub async fn add_todo(title: String) -> Result<(), ServerFnError> {
 pub fn TodoComponent() -> impl IntoView {
     let add_todo = create_server_action::<AddTodo>();
 
+    let (todos, set_todos) = create_signal(Vec::<String>::new());
+
+    let fetch_and_update_todos = async move {
+        match get_todos().await {
+            Ok(new_todos) => {
+                set_todos.set(new_todos);
+            }
+            Err(e) => {
+                println!("Error fetching todos: {}", e);
+            }
+        }
+    };
+
+    spawn_local(fetch_and_update_todos);
+
     // let value = add_todo.value();
     // let has_error = move || value.with(|val| matches!(val, Some(Err(_))));
 
     view! {
-        <div>
         <ActionForm action=add_todo>
             <label>
                 "Add a Todo"
@@ -60,10 +74,17 @@ pub fn TodoComponent() -> impl IntoView {
             </label>
             <input type="submit" value="Add"/>
         </ActionForm>
-            <Suspense fallback=move || view! { <p>"Loading todos..."</p> }>
-                // Figure out how to iterate over return of async get_todos()
-                { move || {}}
-            </Suspense>
-        </div>
+        <Suspense fallback=move || view! { <p>"Loading todos..."</p> }>
+            <ul>
+            { move || {
+                todos
+                    .get()
+                    .into_iter()
+                    .map(|n| view! {<li>{n}</li>})
+                    .collect_view()
+                }
+            }
+            </ul>
+        </Suspense>
     }
 }
