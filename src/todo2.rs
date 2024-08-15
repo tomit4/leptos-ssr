@@ -46,8 +46,9 @@ pub async fn add_todo(title: String) -> Result<(), ServerFnError> {
 #[component]
 pub fn TodoComponent() -> impl IntoView {
     let add_todo = create_server_action::<AddTodo>();
-
     let (todos, set_todos) = create_signal(Vec::<String>::new());
+
+    let input_element: NodeRef<html::Input> = create_node_ref();
 
     let fetch_and_update_todos = async move {
         match get_todos().await {
@@ -65,14 +66,21 @@ pub fn TodoComponent() -> impl IntoView {
     // let value = add_todo.value();
     // let has_error = move || value.with(|val| matches!(val, Some(Err(_))));
 
+    let on_submit = move |ev: ev::SubmitEvent| {
+        let data = AddTodo::from_event(&ev);
+        if data.is_err() || data.unwrap().title == "nope!" {
+            ev.prevent_default();
+        }
+    };
+
     view! {
-        <ActionForm action=add_todo>
+        <ActionForm action=add_todo on:submit=on_submit>
             <label>
                 "Add a Todo"
                 // `title` matches the `title` argument to `add_todo`
                 <input type="text" name="title" />
             </label>
-            <input type="submit" value="Add"/>
+            <input type="submit" value="Add" node_ref=input_element/>
         </ActionForm>
         <Suspense fallback=move || view! { <p>"Loading todos..."</p> }>
             <ul>
@@ -80,7 +88,7 @@ pub fn TodoComponent() -> impl IntoView {
                 todos
                     .get()
                     .into_iter()
-                    .map(|n| view! {<li>{n}</li>})
+                    .map(|todo| view! {<li>{todo}</li>})
                     .collect_view()
                 }
             }
