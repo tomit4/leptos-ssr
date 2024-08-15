@@ -7,6 +7,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::extractors::CookieTestComponent;
 use crate::todo::BusyButton;
+use crate::todo2::TodoComponent;
 
 #[component]
 pub fn App() -> impl IntoView {
@@ -70,6 +71,10 @@ pub fn App() -> impl IntoView {
                     <Route
                         path="/cookie"
                         view=CookieTestComponent
+                    />
+                    <Route
+                        path="todo"
+                        view=TodoComponent
                     />
                 </Routes>
             </main>

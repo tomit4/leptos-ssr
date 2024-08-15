@@ -5,6 +5,7 @@ pub mod extractors;
 #[cfg(feature = "ssr")]
 pub mod fileserv;
 pub mod todo;
+pub mod todo2;
 
 #[cfg(feature = "hydrate")]
 #[wasm_bindgen::prelude::wasm_bindgen]
